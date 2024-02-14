@@ -1,3 +1,11 @@
 * {
 	box-sizing: border-box;
 }
+
+:root {
+	--black: #000;
+	--gray-dark: #333;
+	--gray-basic: #717171;
+	--gray-light: #9f9f9f;
+	--gray-lighter: #e2e2e2;
+}
