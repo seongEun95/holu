@@ -1,46 +1,26 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
-import Avatar from '../components/ui/Avatar';
-import Label from '../components/ui/Label';
-import { LangIcon } from '../components/ui/LangIcon';
+import Dropdown from '../components/ui/Dropdown';
+import { useState } from 'react';
 
 export default function TestPage() {
+	const [isShow, setIsShow] = useState(false);
+
+	const handleClickChangeIsShow = () => {
+		setIsShow(prev => !prev);
+	};
+
 	return (
 		<div css={testCss}>
 			<div>
-				<div css={testTitleCss}></div>
-				<LangIcon type="aws" size="small" />
-				<LangIcon type="typescript" size="medium" />
-				<LangIcon type="javascript" size="large" />
-			</div>
-
-			<div>
-				<div css={testTitleCss}></div>
-				<LangIcon type="django" size="small" />
-				<LangIcon type="django" size="medium" />
-				<LangIcon type="c" size="large" />
-			</div>
-
-			<div>
-				<div css={testTitleCss}></div>
-				<LangIcon type="swift" size="small" />
-				<LangIcon type="php" size="medium" />
-				<LangIcon type="typescript" size="large" />
-			</div>
-
-			<div>
-				<div css={testTitleCss}></div>
-				<LangIcon type="reactnative" size="small" />
-				<LangIcon type="mysql" size="medium" />
-				<LangIcon type="vue" size="large" />
-			</div>
-
-			<div>
-				<div css={testTitleCss}></div>
-				<LangIcon type="unity" size="small" />
-				<LangIcon type="git" size="medium" />
-				<LangIcon type="unity" size="large" />
+				<div css={testTitleCss}>드랍다운</div>
+				<div css={dropdownTestCss}>
+					<div css={openDropdownCss} onClick={handleClickChangeIsShow}>
+						드랍다운 열기
+					</div>
+					<Dropdown isShow={isShow} />
+				</div>
 			</div>
 		</div>
 	);
@@ -60,4 +40,16 @@ const testTitleCss = css`
 	font-size: 16px;
 	color: #183e2a;
 	margin-bottom: 20px;
+`;
+
+const dropdownTestCss = css`
+	position: relative;
+`;
+
+const openDropdownCss = css`
+	width: 200px;
+	margin: 0 auto;
+	padding: 10px 20px;
+	border: 1px solid #ccc;
+	cursor: pointer;
 `;
