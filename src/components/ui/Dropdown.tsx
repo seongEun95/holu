@@ -46,8 +46,8 @@ export default function Dropdown({ isShow }: DropdownProps) {
 
 const dropdownWrapCss = css`
 	position: absolute;
-	top: 140%;
-	left: 0;
+	top: 120%;
+	right: 0;
 	width: 190px;
 	box-shadow: 0 2px 10px #00000013;
 	border: 1px solid #ccc;
