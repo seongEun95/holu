@@ -3,46 +3,44 @@
 import { jsx, css } from '@emotion/react';
 import Avatar from '../components/ui/Avatar';
 import Label from '../components/ui/Label';
+import { LangIcon } from '../components/ui/LangIcon';
 
 export default function TestPage() {
 	return (
 		<div css={testCss}>
 			<div>
-				<div css={testTitleCss}>PROJECT </div>
-				<Label type="PROJECT" />
+				<div css={testTitleCss}></div>
+				<LangIcon type="aws" size="small" />
+				<LangIcon type="typescript" size="medium" />
+				<LangIcon type="javascript" size="large" />
 			</div>
 
 			<div>
-				<div css={testTitleCss}>STUDY </div>
-				<Label type="STUDY" />
+				<div css={testTitleCss}></div>
+				<LangIcon type="django" size="small" />
+				<LangIcon type="django" size="medium" />
+				<LangIcon type="c" size="large" />
 			</div>
 
 			<div>
-				<div css={testTitleCss}>DEADLINE_DATE</div>
-				<Label type="DEADLINE_DATE" date={1} />
-				<Label type="DEADLINE_DATE" date={2} />
-				<Label type="DEADLINE_DATE" date={12} />
+				<div css={testTitleCss}></div>
+				<LangIcon type="swift" size="small" />
+				<LangIcon type="php" size="medium" />
+				<LangIcon type="typescript" size="large" />
 			</div>
 
 			<div>
-				<div css={testTitleCss}>NEW_ARTICLE</div>
-				<Label type="NEW_ARTICLE" />
+				<div css={testTitleCss}></div>
+				<LangIcon type="reactnative" size="small" />
+				<LangIcon type="mysql" size="medium" />
+				<LangIcon type="vue" size="large" />
 			</div>
 
 			<div>
-				<div css={testTitleCss}>POPULAR_ARTICLE</div>
-				<Label type="POPULAR_ARTICLE" />
-			</div>
-
-			<div>
-				<div css={testTitleCss}>LANGUAGE</div>
-				<Label type="LANGUAGE" lang="프론트엔드" />
-				<Label type="LANGUAGE" lang="데브옵스" />
-			</div>
-
-			<div>
-				<div css={testTitleCss}>DEADLINE_SOON</div>
-				<Label type="DEADLINE_SOON" />
+				<div css={testTitleCss}></div>
+				<LangIcon type="unity" size="small" />
+				<LangIcon type="git" size="medium" />
+				<LangIcon type="unity" size="large" />
 			</div>
 		</div>
 	);
