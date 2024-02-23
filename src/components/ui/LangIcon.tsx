@@ -47,7 +47,7 @@ type LangIconProps = {
 };
 
 export function LangIcon({ type, size }: LangIconProps) {
-	return <img css={iconCss[size]} src={`/img/${type}.svg`} alt={type} />;
+	return <img css={iconCss[size]} src={`/img/icon/${type}.svg`} alt={type} />;
 }
 
 const iconCss: IconCssProps = {
