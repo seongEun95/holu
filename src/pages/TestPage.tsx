@@ -1,26 +1,44 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
-import Dropdown from '../components/ui/Dropdown';
 import { useState } from 'react';
+import SelectBox from '../components/ui/SelectBox';
 
 export default function TestPage() {
-	const [isShow, setIsShow] = useState(false);
+	const [selectedValue, setSelectedValue] = useState<{ [key: string]: string }>({
+		category: '',
+	});
 
-	const handleClickChangeIsShow = () => {
-		setIsShow(prev => !prev);
+	const handleClickItem = (value: any) => {
+		setSelectedValue({ category: value });
 	};
+
+	const SelectItems = [
+		{
+			userValue: '프로젝트',
+			dataValue: 'project',
+		},
+		{
+			userValue: '스터디',
+			dataValue: 'study',
+		},
+		{
+			userValue: '기타',
+			dataValue: 'etc',
+		},
+	];
 
 	return (
 		<div css={testCss}>
 			<div>
-				<div css={testTitleCss}>드랍다운</div>
-				<div css={dropdownTestCss}>
-					<div css={openDropdownCss} onClick={handleClickChangeIsShow}>
-						드랍다운 열기
-					</div>
-					<Dropdown isShow={isShow} />
-				</div>
+				<SelectBox
+					type="singleSelection"
+					label="모집 구분"
+					defaultText="스터디/프로젝트"
+					selectItems={SelectItems}
+					onClick={handleClickItem}
+					selectedValue={selectedValue.category}
+				/>
 			</div>
 		</div>
 	);
