@@ -5,7 +5,7 @@ import { useState } from 'react';
 import SelectBox from '../components/ui/SelectBox';
 
 export default function TestPage() {
-	const [selectedValue, setSelectedValue] = useState<{ [key: string]: string }>({
+	const [selectedValue, setSelectedValue] = useState({
 		category: '',
 	});
 
@@ -15,16 +15,16 @@ export default function TestPage() {
 
 	const SelectItems = [
 		{
-			userValue: '프로젝트',
-			dataValue: 'project',
+			label: '프로젝트',
+			value: 'project',
 		},
 		{
-			userValue: '스터디',
-			dataValue: 'study',
+			label: '스터디',
+			value: 'study',
 		},
 		{
-			userValue: '기타',
-			dataValue: 'etc',
+			label: '기타',
+			value: 'etc',
 		},
 	];
 
@@ -38,6 +38,25 @@ export default function TestPage() {
 					selectItems={SelectItems}
 					onClick={handleClickItem}
 					selectedValue={selectedValue.category}
+				/>
+				<SelectBox
+					type="singleSelection"
+					label="모집 인원"
+					defaultText="인원 미정~10명 이상"
+					selectItems={SelectItems}
+					onClick={handleClickItem}
+					selectedValue={selectedValue.category}
+				/>
+				<SelectBox type="multipleSelection" label="기술 스택" selectItems={SelectItems} />
+				<SelectBox type="DateSelection" label="모집 마감일" />
+				<SelectBox
+					type="singleSelection"
+					label="모집 구분"
+					defaultText="스터디/프로젝트"
+					selectItems={SelectItems}
+					onClick={handleClickItem}
+					selectedValue={selectedValue.category}
+					contact={true}
 				/>
 			</div>
 		</div>
