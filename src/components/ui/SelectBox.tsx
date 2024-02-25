@@ -94,7 +94,7 @@ export default function SelectBox({
 						mode="multiple"
 						allowClear
 						style={{ width: '100%' }}
-						placeholder="프로젝트 사용 스택"
+						placeholder={defaultText}
 						onChange={handleChangeSelectedMultiSelection}
 						onClick={handleClickShowMultiSelection}
 						options={selectItems}

@@ -65,7 +65,12 @@ export default function RegisterPage() {
 				</div>
 				<div css={selectBoxWrapCss}>
 					<div css={selectBoxCss}>
-						<SelectBox type="multipleSelection" label="기술 스택" selectItems={skill} />
+						<SelectBox
+							type="multipleSelection"
+							label="기술 스택"
+							selectItems={skill}
+							defaultText="프로젝트 사용 스택"
+						/>
 					</div>
 					<div css={selectBoxCss}>
 						<SelectBox type="DateSelection" label="모집 마감일" />
@@ -73,7 +78,12 @@ export default function RegisterPage() {
 				</div>
 				<div css={selectBoxWrapCss}>
 					<div css={selectBoxCss}>
-						<SelectBox type="multipleSelection" label="모집 포지션" selectItems={position} />
+						<SelectBox
+							type="multipleSelection"
+							label="모집 포지션"
+							selectItems={position}
+							defaultText="프론트엔드, 벡엔드..."
+						/>
 					</div>
 					<div css={selectBoxCss}>
 						<SelectBox
