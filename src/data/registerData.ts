@@ -1,4 +1,4 @@
-export const SelectItems = [
+export const OPTIONS_CATEGORY = [
 	{
 		label: '프로젝트',
 		value: 'project',
@@ -70,6 +70,21 @@ export const skill = [
 	{
 		label: 'TypeScript',
 		value: 'TypeScript',
+	},
+];
+
+export const CONTACT = [
+	{
+		label: '오픈톡',
+		value: 'openTalk',
+	},
+	{
+		label: '이메일',
+		value: 'email',
+	},
+	{
+		label: '구글폼',
+		value: 'googleForm',
 	},
 ];
 

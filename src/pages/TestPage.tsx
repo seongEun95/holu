@@ -31,15 +31,15 @@ export default function TestPage() {
 	return (
 		<div css={testCss}>
 			<div>
-				<SelectBox
+				{/* <SelectBox
 					type="singleSelection"
 					label="모집 구분"
 					defaultText="스터디/프로젝트"
 					selectItems={SelectItems}
 					onClick={handleClickItem}
 					selectedValue={selectedValue.category}
-				/>
-				<SelectBox
+				/> */}
+				{/* <SelectBox
 					type="singleSelection"
 					label="모집 인원"
 					defaultText="인원 미정~10명 이상"
@@ -55,9 +55,9 @@ export default function TestPage() {
 					defaultText="스터디/프로젝트"
 					selectItems={SelectItems}
 					onClick={handleClickItem}
-					selectedValue={selectedValue.category}
-					contact={true}
-				/>
+					selectedValue={selectedValue.category} */}
+				{/* // contact={true} */}
+				{/* /> */}
 			</div>
 		</div>
 	);
