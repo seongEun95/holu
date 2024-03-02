@@ -1,116 +1,63 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
-import React, { useState } from 'react';
-import { Select, Space } from 'antd';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import React, { useRef, useState } from 'react';
+import useOutsideClick from '../../hooks/useOutsideClick';
 
-export type SelectBoxType = 'singleSelection' | 'multipleSelection' | 'DateSelection';
-
-type SelectItem = {
+type Option = {
 	label: string;
 	value: string;
 };
 
 type SelectBoxProps = {
-	type: SelectBoxType;
+	name: string;
+	value: string;
 	label: string;
-	defaultText?: string;
-	selectItems?: SelectItem[];
-	onClick?: any;
-	selectedValue?: string;
-	contact?: boolean;
+	options: Option[];
+	placeholder: string;
+	onClick?: React.MouseEventHandler;
 };
 
-export default function SelectBox({
-	type,
-	label,
-	defaultText,
-	selectItems,
-	onClick,
-	selectedValue,
-	contact,
-}: SelectBoxProps) {
+export default function SelectBox({ name, value, label, options, placeholder, onClick }: SelectBoxProps) {
 	const [isShow, setIsShow] = useState(false);
-	const [selectedLabelValue, setSelectedLabelValue] = useState(defaultText);
 
-	const handleClickSelectItme = (selectedValue: string) => {
-		console.log(`선택한 실제 값 : ${selectedValue}`);
-		onClick(selectedValue);
-		setIsShow(prev => !prev);
+	const divRef = useRef<HTMLDivElement>(null);
+	useOutsideClick(divRef, () => setIsShow(() => false));
+
+	const provideAttr = (name: string, value: any, e: any) => {
+		e.target.name = name;
+		e.target.value = value;
+		return e;
 	};
 
-	const handleClickChangeText = (selectedValue: string) => {
-		setSelectedLabelValue(selectedValue);
+	const handleClickSelectItme = (selectedValue: string, e: any) => {
+		onClick?.(provideAttr(name, selectedValue, e));
+		setIsShow(prev => !prev);
 	};
 
 	const handleClickShowItems = () => {
 		setIsShow(prev => !prev);
 	};
 
-	const handleChangeSelectedMultiSelection = (value: string[]) => {
-		console.log(`selected ${value}`);
-	};
-
-	const handleClickShowMultiSelection = () => {
-		setIsShow(prev => !prev);
-	};
-
 	return (
 		<div>
 			<div css={labelCss}>{label}</div>
-			{type === 'singleSelection' && (
-				<React.Fragment>
-					<div css={selectedValueCss} onClick={handleClickShowItems}>
-						{selectedValue === '' ? defaultText : selectedLabelValue}
-					</div>
-					<div css={selectBoxWrapCss}>
-						{isShow && (
-							<ul css={itemWrapCss}>
-								{selectItems &&
-									selectItems.map((item, index) => (
-										<li
-											onClick={() => {
-												handleClickSelectItme(item.value);
-												handleClickChangeText(item.label);
-											}}
-											css={itemCss}
-											key={index}
-										>
-											{item.label}
-										</li>
-									))}
-							</ul>
-						)}
-					</div>
-					{contact && <input css={inputCss} type="text" placeholder={`${selectedLabelValue} 주소`} />}
-				</React.Fragment>
-			)}
-			{type === 'multipleSelection' && (
-				<Space style={{ width: '100%' }} direction="vertical">
-					<Select
-						mode="multiple"
-						allowClear
-						style={{ width: '100%' }}
-						placeholder={defaultText}
-						onChange={handleChangeSelectedMultiSelection}
-						onClick={handleClickShowMultiSelection}
-						options={selectItems}
-						open={isShow}
-						dropdownStyle={{ padding: '10px', background: '#fff' }}
-						size="large"
-					/>
-				</Space>
-			)}
-			{type === 'DateSelection' && (
-				<div>
-					<LocalizationProvider dateAdapter={AdapterDayjs}>
-						<DatePicker css={datePickerCss} format="YYYY-MM-DD" />
-					</LocalizationProvider>
+			<React.Fragment>
+				<div css={selectedValueCss} onClick={handleClickShowItems}>
+					{value ? options.find(item => item.value === value)?.label : placeholder}
 				</div>
-			)}
+				<div css={selectBoxWrapCss}>
+					{isShow && (
+						<div css={itemWrapCss} ref={divRef}>
+							{options.map(item => (
+								<div css={itemCss} key={item.value} onClick={e => handleClickSelectItme(item.value, e)}>
+									{item.label}
+								</div>
+							))}
+						</div>
+					)}
+				</div>
+			</React.Fragment>
 		</div>
 	);
 }
@@ -148,15 +95,4 @@ const itemCss = css`
 	&:hover {
 		background-color: #d7edff;
 	}
-`;
-
-const inputCss = css`
-	width: 100%;
-	margin-top: 12px;
-	padding: 10px;
-	border: 1px solid #ccc;
-`;
-
-const datePickerCss = css`
-	width: 100%;
 `;
