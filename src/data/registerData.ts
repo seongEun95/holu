@@ -1,4 +1,4 @@
-export const SelectItems = [
+export const OPTIONS_CATEGORY = [
 	{
 		label: '프로젝트',
 		value: 'project',
@@ -13,7 +13,7 @@ export const SelectItems = [
 	},
 ];
 
-export const peopleNumbers = [
+export const OPTIONS_PERSONCOUNT = [
 	{
 		label: '인원미정',
 		value: 'N',
@@ -28,7 +28,7 @@ export const peopleNumbers = [
 	},
 ];
 
-export const process = [
+export const OPTIONS_PROGRESS_METHOD = [
 	{
 		label: '전체',
 		value: 'all',
@@ -43,7 +43,7 @@ export const process = [
 	},
 ];
 
-export const period = [
+export const OPTIONS_PROGRESS_PERIOD = [
 	{
 		label: '기간 미정',
 		value: 'no period',
@@ -58,22 +58,22 @@ export const period = [
 	},
 ];
 
-export const skill = [
+export const OPTIONS_SKILL_STACK = [
 	{
-		label: 'javaScript',
+		label: '자바스크립트',
 		value: 'javaScript',
 	},
 	{
-		label: 'React',
+		label: '리액트',
 		value: 'React',
 	},
 	{
-		label: 'TypeScript',
+		label: '타입스크립트',
 		value: 'TypeScript',
 	},
 ];
 
-export const position = [
+export const OPTIONS_POSITION = [
 	{
 		label: '전체',
 		value: 'all',
@@ -85,5 +85,20 @@ export const position = [
 	{
 		label: '벡엔드',
 		value: 'backend',
+	},
+];
+
+export const OPTIONS_CONTACT_METHOD = [
+	{
+		label: '오픈톡',
+		value: 'openTalk',
+	},
+	{
+		label: '이메일',
+		value: 'Email',
+	},
+	{
+		label: '구글 폼',
+		value: 'googleForm',
 	},
 ];
