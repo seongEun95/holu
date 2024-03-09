@@ -65,8 +65,7 @@ const labelCss = css`
 `;
 
 const inputCss = css`
-	:where(.css-dev-only-do-not-override-1k979oh).ant-select-outlined:not(.ant-select-customize-input)
-		.ant-select-selector {
-		padding: 6px 10px;
+	.ant-select-selector {
+		padding: 6px 10px !important;
 	}
 `;
