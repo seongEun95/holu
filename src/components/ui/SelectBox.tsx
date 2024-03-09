@@ -18,17 +18,17 @@ type SelectBoxProps = {
 	onClick?: React.MouseEventHandler;
 };
 
+const provideAttr = (name: string, value: any, e: any) => {
+	e.target.name = name;
+	e.target.value = value;
+	return e;
+};
+
 export default function SelectBox({ name, value, label, options, placeholder, onClick }: SelectBoxProps) {
 	const [isShow, setIsShow] = useState(false);
 
 	const divRef = useRef<HTMLDivElement>(null);
 	useOutsideClick(divRef, () => setIsShow(() => false));
-
-	const provideAttr = (name: string, value: any, e: any) => {
-		e.target.name = name;
-		e.target.value = value;
-		return e;
-	};
 
 	const handleClickSelectItme = (selectedValue: string, e: any) => {
 		onClick?.(provideAttr(name, selectedValue, e));
