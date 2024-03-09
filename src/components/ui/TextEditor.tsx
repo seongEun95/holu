@@ -7,10 +7,11 @@ import 'react-quill/dist/quill.snow.css';
 type TextEditorProps = {
 	name: string;
 	value?: string;
+	placeholder?: string;
 	onChange: React.ChangeEventHandler;
 };
 
-export default function TextEditor({ name, value, onChange }: TextEditorProps) {
+export default function TextEditor({ name, value, onChange, placeholder }: TextEditorProps) {
 	const handleChangeValue = (value: ReactQuill.Value) => {
 		onChange({ target: { name, value } } as any);
 	};
@@ -35,7 +36,7 @@ export default function TextEditor({ name, value, onChange }: TextEditorProps) {
 			modules={modules}
 			css={textEditorCss}
 			theme="snow"
-			placeholder="프로젝트에 대해 소개해주세요!"
+			placeholder={placeholder}
 			onChange={handleChangeValue}
 		/>
 	);
