@@ -1,27 +1,34 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
-import Dropdown from '../components/ui/Dropdown';
-import { useState } from 'react';
+import Button from '../components/ui/Button';
 
 export default function TestPage() {
-	const [isShow, setIsShow] = useState(false);
-
-	const handleClickChangeIsShow = () => {
-		setIsShow(prev => !prev);
-	};
-
 	return (
 		<div css={testCss}>
-			<div>
-				<div css={testTitleCss}>드랍다운</div>
-				<div css={dropdownTestCss}>
-					<div css={openDropdownCss} onClick={handleClickChangeIsShow}>
-						드랍다운 열기
-					</div>
-					<Dropdown isShow={isShow} />
-				</div>
-			</div>
+			<Button kind="submit" size="medium">
+				확인
+			</Button>
+
+			<Button kind="comment" size="large">
+				댓글 달기
+			</Button>
+
+			<Button kind="comment" size="medium">
+				댓글 달기
+			</Button>
+
+			<Button kind="comment" size="small">
+				댓글 달기
+			</Button>
+
+			<Button kind="cancel" size="medium">
+				취소
+			</Button>
+
+			<Button kind="normal" size="medium">
+				확인
+			</Button>
 		</div>
 	);
 }
@@ -34,22 +41,4 @@ const testCss = css`
 	gap: 30px;
 	width: 100%;
 	height: 100vh;
-`;
-
-const testTitleCss = css`
-	font-size: 16px;
-	color: #183e2a;
-	margin-bottom: 20px;
-`;
-
-const dropdownTestCss = css`
-	position: relative;
-`;
-
-const openDropdownCss = css`
-	width: 200px;
-	margin: 0 auto;
-	padding: 10px 20px;
-	border: 1px solid #ccc;
-	cursor: pointer;
 `;
