@@ -35,6 +35,12 @@ type UserInput = {
 	contents: string;
 };
 
+const CONTACT_DETAIL_TEXT_MAP: { [index: string]: string } = {
+	openTalk: '오픈톡 링크를 입력해주세요',
+	Email: '이메일 주소를 입력해주세요',
+	googleForm: '구글 폼 링크를 입력해주세요',
+};
+
 export default function RegisterPage() {
 	const navigate = useNavigate();
 
@@ -55,12 +61,6 @@ export default function RegisterPage() {
 	const handleClickGetItem = (e: any) => {
 		const { name, value } = e.target;
 		setUserInput(prev => ({ ...prev, [name]: value }));
-	};
-
-	const CONTACT_DETAIL_TEXT_MAP: { [index: string]: string } = {
-		openTalk: '오픈톡 링크를 입력해주세요',
-		Email: '이메일 주소를 입력해주세요',
-		googleForm: '구글 폼 링크를 입력해주세요',
 	};
 
 	const handleClickSubmitForm = () => {
@@ -178,7 +178,12 @@ export default function RegisterPage() {
 					/>
 				</div>
 				<div>
-					<TextEditor name="contents" onChange={handleClickGetItem} value={userInput.contents} />
+					<TextEditor
+						name="contents"
+						onChange={handleClickGetItem}
+						value={userInput.contents}
+						placeholder="프로젝트에 대해 설명해주세요!"
+					/>
 				</div>
 				<div css={btnWrapCss}>
 					<Button kind="cancel" size="medium" onClick={handleClickCancel}>
