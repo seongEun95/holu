@@ -3,6 +3,7 @@
 import { jsx, css } from '@emotion/react';
 import React, { useRef, useState } from 'react';
 import useOutsideClick from '../../hooks/useOutsideClick';
+import { provideAttr } from '../../util/provideAttr';
 
 type Option = {
 	label: string;
@@ -16,12 +17,6 @@ type SelectBoxProps = {
 	options: Option[];
 	placeholder: string;
 	onClick?: React.MouseEventHandler;
-};
-
-const provideAttr = (name: string, value: any, e: any) => {
-	e.target.name = name;
-	e.target.value = value;
-	return e;
 };
 
 export default function SelectBox({ name, value, label, options, placeholder, onClick }: SelectBoxProps) {

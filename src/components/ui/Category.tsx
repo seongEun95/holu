@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
+import { provideAttr } from '../../util/provideAttr';
 
 type CategoryProps = {
 	name: string;
@@ -9,14 +10,8 @@ type CategoryProps = {
 	onClick?: React.MouseEventHandler;
 };
 
-const provideAttr = (name: string, value: any, e: any) => {
-	e.target.name = name;
-	e.target.value = value;
-	return e;
-};
-
 export default function Category({ name, value, label, onClick }: CategoryProps) {
-	const handleClickCategory = (e: any) => {
+	const handleClickCategory = (e: React.MouseEvent<HTMLDivElement>) => {
 		onClick?.(provideAttr(name, value, e));
 	};
 

@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
 import React, { useState } from 'react';
+import { provideAttr } from '../../util/provideAttr';
 
 type Option = {
 	label: string;
@@ -16,12 +17,6 @@ type DropdownMenuProps = {
 	onClick?: React.MouseEventHandler;
 };
 
-const provideAttr = (name: string, value: any, e: any) => {
-	e.target.name = name;
-	e.target.value = value;
-	return e;
-};
-
 export default function DropdownMenu({ name, value, options, placeholder, onClick }: DropdownMenuProps) {
 	const [isShow, setIsShow] = useState(false);
 
@@ -29,7 +24,7 @@ export default function DropdownMenu({ name, value, options, placeholder, onClic
 		setIsShow(prev => !prev);
 	};
 
-	const handleClickSelectOption = (selectedOption: string, e: any) => {
+	const handleClickSelectOption = (selectedOption: string, e: React.MouseEvent<HTMLDivElement>) => {
 		onClick?.(provideAttr(name, selectedOption, e));
 		setIsShow(prev => !prev);
 	};
