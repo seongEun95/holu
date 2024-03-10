@@ -12,7 +12,7 @@ import {
 	OPTIONS_PROGRESS_PERIOD,
 	OPTIONS_SKILL_STACK,
 } from '../data/registerData';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import MultiSelectBox from '../components/ui/MultiSelectBox';
 import DatePicker from '../components/ui/DatePicker';
 import TextInput from '../components/ui/TextInput';
@@ -20,20 +20,7 @@ import RegisterTitle from '../components/ui/RegisterTitle';
 import Button from '../components/ui/Button';
 import { useNavigate } from 'react-router-dom';
 import TextEditor from '../components/ui/TextEditor';
-
-type UserInput = {
-	category: string;
-	personCount: string;
-	progressMethod: string;
-	progressPeriod: string;
-	skillStack: string[];
-	deadline: Dayjs;
-	position: string[];
-	contactMethod: string;
-	contactDetail: string;
-	projectTitle: string;
-	contents: string;
-};
+import { UserInput } from '../types/UserInput.type';
 
 const CONTACT_DETAIL_TEXT_MAP: { [index: string]: string } = {
 	openTalk: '오픈톡 링크를 입력해주세요',
