@@ -1,8 +1,9 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { provideAttr } from '../../util/provideAttr';
+import useOutsideClick from '../../hooks/useOutsideClick';
 
 type Option = {
 	label: string;
@@ -24,6 +25,9 @@ export default function DropdownMenu({ name, value, options, placeholder, onClic
 		setIsShow(prev => !prev);
 	};
 
+	const divRef = useRef<HTMLDivElement>(null);
+	useOutsideClick(divRef, () => setIsShow(() => false));
+
 	const handleClickSelectOption = (selectedOption: string, e: React.MouseEvent<HTMLDivElement>) => {
 		onClick?.(provideAttr(name, selectedOption, e));
 		setIsShow(prev => !prev);
@@ -36,7 +40,7 @@ export default function DropdownMenu({ name, value, options, placeholder, onClic
 					{value ? options.find(item => item.value === value)?.label : placeholder}
 				</div>
 				{isShow && (
-					<div css={optionsWrapCss}>
+					<div css={optionsWrapCss} ref={divRef}>
 						{options.map(item => (
 							<div css={itemCss} key={item.value} onClick={e => handleClickSelectOption(item.value, e)}>
 								{item.label}
