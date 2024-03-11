@@ -1,13 +1,15 @@
 import { Dayjs } from 'dayjs';
+import { PositionType } from '../components/ui/Label';
+import { LangIconType } from '../components/ui/LangIcon';
 
 export type CardData = {
 	category: string;
-	uploadDate: Date;
+	uploadDate: Dayjs;
 	deadline: Dayjs;
 	projectTitle: string;
-	position: string[];
-	skillStack: string[];
-	userIconSrc: string;
+	position: PositionType[];
+	skillStack: LangIconType[];
+	userIconSrc?: string;
 	userId: string;
 	viewCount: number;
 	commentCount: number;
