@@ -7,11 +7,11 @@ export type LabelType =
 	| 'STUDY'
 	| 'NEW_ARTICLE'
 	| 'POPULAR_ARTICLE'
-	| 'LANGUAGE'
+	| 'POSITION'
 	| 'DEADLINE_SOON'
 	| 'DEADLINE_DATE';
 
-export type LangType =
+export type PositionType =
 	| '전체'
 	| '프론트엔드'
 	| '벡엔드'
@@ -24,7 +24,7 @@ export type LangType =
 
 type LabelProps = {
 	type: LabelType;
-	lang?: LangType;
+	position?: PositionType;
 	date?: number;
 };
 
@@ -32,7 +32,7 @@ interface LabelCssProps {
 	[key: string]: ReturnType<typeof css>;
 }
 
-export default function Label({ type, lang, date }: LabelProps) {
+export default function Label({ type, position, date }: LabelProps) {
 	switch (type) {
 		case 'PROJECT':
 			return <div css={[labelCommonCss, labelCss[type]]}>🗂 프로젝트</div>;
@@ -42,14 +42,14 @@ export default function Label({ type, lang, date }: LabelProps) {
 			return <div css={[labelCommonCss, labelCss[type]]}>🍞 따끈따끈 새 글</div>;
 		case 'POPULAR_ARTICLE':
 			return <div css={[labelCommonCss, labelCss[type]]}>💙 인기</div>;
-		case 'LANGUAGE':
-			return <div css={[labelCommonCss, labelCss[type]]}>{lang}</div>;
+		case 'POSITION':
+			return <div css={[labelCommonCss, labelCss[type]]}>{position}</div>;
 		case 'DEADLINE_SOON':
 			return <div css={[labelCommonCss, labelCss[type]]}>🔥 마감코앞</div>;
 		case 'DEADLINE_DATE':
 			return (
 				<div css={[labelCommonCss, labelCss[type]]}>
-					{date === 1 ? <span>🚨 오늘 마감</span> : date ? <span>🚨 마감 {date}일전</span> : null}
+					{date === 0 ? <span>🚨 오늘 마감</span> : date ? <span>🚨 마감 {date}일전</span> : null}
 				</div>
 			);
 	}
@@ -89,7 +89,7 @@ const labelCss: LabelCssProps = {
 		background: #f1f7ff;
 	`,
 
-	LANGUAGE: css`
+	POSITION: css`
 		color: #3e86f5;
 		background: #f2f4f8;
 	`,
