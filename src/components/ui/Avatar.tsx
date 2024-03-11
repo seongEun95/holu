@@ -10,12 +10,19 @@ type AvatarProps = {
 	type: AvatarType;
 	name?: string;
 	size: AvatarSize;
-	src: string;
-	alt: string;
+	src?: string;
+	alt?: string;
 	date?: Date;
 };
 
-export default function Avatar({ type, name, size, src, alt, date }: AvatarProps) {
+export default function Avatar({
+	type,
+	name,
+	size,
+	src = 'https://hola-post-image.s3.ap-northeast-2.amazonaws.com/default.PNG',
+	alt,
+	date,
+}: AvatarProps) {
 	return (
 		<div>
 			<div css={avatarWrapCss}>
