@@ -1,13 +1,29 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
-import Label, { LabelType } from './Label';
-import { CardData } from '../../types/Card.type';
+import Label from './Label';
 import { PiHandWavingThin } from 'react-icons/pi';
-import { LangIcon } from './LangIcon';
+import { LangIcon, LanguageType } from './LangIcon';
 import Avatar from './Avatar';
 import UserCountIcon from './UserCountIcon';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import { PositionType } from '../../pages/MainPage';
+
+export type CategoryType = 'PROJECT' | 'STUDY';
+
+type CardProps = {
+	category: CategoryType;
+	uploadDate: Dayjs;
+	deadline: Dayjs;
+	projectTitle: string;
+	position: PositionType[];
+	skillStack: LanguageType[];
+	userIconSrc?: string;
+	userId: string;
+	viewCount: number;
+	commentCount: number;
+	progressMethod: string[];
+};
 
 export default function Card({
 	category,
@@ -19,8 +35,8 @@ export default function Card({
 	userId,
 	viewCount,
 	commentCount,
-}: CardData) {
-	const today = dayjs();
+}: CardProps) {
+	const today = dayjs().set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
 	const diffDays = today.diff(uploadDate, 'days');
 	const deadlineSoon = deadline.diff(today, 'days') + 1;
 
@@ -28,17 +44,13 @@ export default function Card({
 		<div css={cardWrapCss}>
 			<div>
 				<div css={labelWrapCss}>
-					<Label type={category as LabelType} />
+					<Label type={category} />
 					{diffDays <= 2 && <Label type="NEW_ARTICLE" />}
-					{deadlineSoon === 1 || (deadlineSoon <= 4 && deadlineSoon > 1) ? (
-						<Label type="DEADLINE_DATE" date={deadlineSoon} />
-					) : deadlineSoon <= 6 && deadlineSoon > 4 ? (
-						<Label type="DEADLINE_SOON" />
-					) : null}
+					{deadlineSoon > 0 && deadlineSoon <= 6 && <Label type="DEADLINE_SOON" />}
 					{viewCount >= 100 && <Label type="POPULAR_ARTICLE" />}
 				</div>
 				<div css={bookMarkIconCss}>
-					<PiHandWavingThin size={40} />
+					<img css={bookmarkCss} src="/img/bookmark-1.png" alt="bookmark" />
 				</div>
 			</div>
 			<div css={deadlineCss}>
@@ -87,6 +99,10 @@ const bookMarkIconCss = css`
 	right: 20px;
 	z-index: 10;
 	cursor: pointer;
+`;
+
+const bookmarkCss = css`
+	width: 28px;
 `;
 
 const deadlineCss = css`
