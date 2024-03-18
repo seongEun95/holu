@@ -5,34 +5,99 @@ import Category from '../components/ui/Category';
 import { useState } from 'react';
 import CardData from '../data/cardData';
 import Card from '../components/ui/Card';
+import DropdownMenu from '../components/ui/DropdownMenu';
+import { OPTIONS_METHOD, OPTIONS_POSITION, OPTIONS_SKILLSTACK } from '../data/mainDropdownData';
+import SearchInput from '../components/ui/SearchInput';
+import { LanguageType } from '../components/ui/LangIcon';
+
+export type SelectedTab = 'ALL' | 'PROJECT' | 'STUDY';
+export type PositionType = 'ALL' | 'FRONTEND' | 'BACKEND' | 'DESIGN' | 'PM';
+export type progressMethodType = 'ALL' | 'ONLINE' | 'OFFLINE';
+
+type CategoryFilterType = {
+	skillStack: LanguageType | '';
+	position: PositionType | '';
+	progressMethod: progressMethodType | '';
+};
 
 export default function MainPage() {
-	const [cardData, setCardData] = useState(CardData);
-	const [categoryFilter, setCategoryFilter] = useState({
-		all: '',
-		project: '',
-		study: '',
+	const cardDataVariable = CardData;
+	const [cardData, setCardData] = useState(cardDataVariable);
+	const [selectedTab, setSelectedTab] = useState<SelectedTab>('ALL');
+	const [categoryFilter, setCategoryFilter] = useState<CategoryFilterType>({
+		skillStack: '',
+		position: '',
+		progressMethod: '',
 	});
+	const [input, setInput] = useState('');
+
+	const handleChangeInput = (e: any) => {
+		setInput(e.target.value);
+	};
+
+	const handleDeleteInput = () => {
+		setInput('');
+	};
 
 	const handleClickCategoryFilter = (filter: string) => {
-		setCardData(cardData.filter(item => item.category === filter));
+		if (filter === 'ALL') {
+			setCardData(cardDataVariable);
+		} else {
+			setCardData(cardDataVariable.filter(item => item.category === filter));
+		}
+	};
+
+	const handleClickGetOption = (e: any) => {
+		const { name, value } = e.target;
+		setCategoryFilter(prev => ({ ...prev, [name]: value }));
+
+		const newList = cardDataVariable.filter(item => {
+			// @ts-ignore
+			return item[name].includes(value);
+		});
+		setCardData(newList);
 	};
 
 	return (
 		<div css={mainWrapCss}>
 			<div css={categoryWrapCss}>
-				<Category label="전체" name="all" value={categoryFilter.all} onClick={() => handleClickCategoryFilter('ALL')} />
-				<Category
-					label="프로젝트"
-					name="project"
-					value={categoryFilter.project}
-					onClick={() => handleClickCategoryFilter('PROJECT')}
-				/>
-				<Category
-					label="스터디"
-					name="study"
-					value={categoryFilter.study}
-					onClick={() => handleClickCategoryFilter('STUDY')}
+				<Category label="전체" name="all" onClick={() => handleClickCategoryFilter('ALL')} />
+				<Category label="프로젝트" name="project" onClick={() => handleClickCategoryFilter('PROJECT')} />
+				<Category label="스터디" name="study" onClick={() => handleClickCategoryFilter('STUDY')} />
+			</div>
+			<div css={dropdownSearchWrapCss}>
+				<div css={dropdownWrapCss}>
+					<DropdownMenu
+						name="skillStack"
+						options={OPTIONS_SKILLSTACK}
+						placeholder="기술 스택"
+						value={categoryFilter.skillStack}
+						onClick={handleClickGetOption}
+					/>
+
+					<DropdownMenu
+						name="position"
+						options={OPTIONS_POSITION}
+						placeholder="포지션"
+						value={categoryFilter.position}
+						onClick={handleClickGetOption}
+					/>
+
+					<DropdownMenu
+						name="progressMethod"
+						options={OPTIONS_METHOD}
+						placeholder="진행 방식"
+						value={categoryFilter.progressMethod}
+						onClick={handleClickGetOption}
+					/>
+				</div>
+				<SearchInput
+					name="search"
+					type="text"
+					onChange={handleChangeInput}
+					placeholder="제목, 글 내용을 검색해보세요."
+					value={input}
+					onClick={handleDeleteInput}
 				/>
 			</div>
 			<div css={cardWrapCss}>
@@ -47,6 +112,7 @@ export default function MainPage() {
 						userId={item.userId}
 						viewCount={item.viewCount}
 						commentCount={item.commentCount}
+						progressMethod={item.progressMethod}
 						key={item.userId}
 					/>
 				))}
@@ -65,6 +131,19 @@ const mainWrapCss = css`
 const categoryWrapCss = css`
 	display: flex;
 	gap: 20px;
+	margin-bottom: 30px;
+`;
+
+const dropdownSearchWrapCss = css`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 30px;
+`;
+
+const dropdownWrapCss = css`
+	display: flex;
+	gap: 12px;
 `;
 
 const cardWrapCss = css`
