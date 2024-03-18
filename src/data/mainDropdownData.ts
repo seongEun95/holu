@@ -1,44 +1,52 @@
-export const OPTIONS_LANGUAGE = [
+export const OPTIONS_SKILLSTACK = [
 	{
 		label: '리액트',
-		value: 'react',
+		value: 'REACT',
 	},
 	{
 		label: '넥스트',
-		value: 'nextjs',
+		value: 'NEXTJS',
 	},
 	{
 		label: '자바',
-		value: 'java',
+		value: 'JAVA',
 	},
 ];
 
 export const OPTIONS_POSITION = [
 	{
 		label: '전체',
-		value: 'all',
+		value: 'ALL',
 	},
 	{
 		label: '프론트엔드',
-		value: 'frontend',
+		value: 'FRONTEND',
 	},
 	{
 		label: '벡엔드',
-		value: 'backend',
+		value: 'BACKEND',
+	},
+	{
+		label: 'PM',
+		value: 'PM',
+	},
+	{
+		label: '디자이너',
+		value: 'DESIGN',
 	},
 ];
 
 export const OPTIONS_METHOD = [
 	{
 		label: '전체',
-		value: 'all',
+		value: 'ALL',
 	},
 	{
 		label: '온라인',
-		value: 'online',
+		value: 'ONLINE',
 	},
 	{
 		label: '오프라인',
-		value: 'offline',
+		value: 'OFFLINE',
 	},
 ];
