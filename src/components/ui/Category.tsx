@@ -5,7 +5,7 @@ import { provideAttr } from '../../util/provideAttr';
 
 type CategoryProps = {
 	name: string;
-	value: string;
+	value?: string;
 	label: string;
 	onClick?: React.MouseEventHandler;
 };
