@@ -34,22 +34,20 @@ export default function DropdownMenu({ name, value, options, placeholder, onClic
 	};
 
 	return (
-		<React.Fragment>
-			<div css={optionsOuterCss}>
-				<div css={selectedOptionCss} onClick={handleClickShowOptions}>
-					{value ? options.find(item => item.value === value)?.label : placeholder}
-				</div>
-				{isShow && (
-					<div css={optionsWrapCss} ref={divRef}>
-						{options.map(item => (
-							<div css={itemCss} key={item.value} onClick={e => handleClickSelectOption(item.value, e)}>
-								{item.label}
-							</div>
-						))}
-					</div>
-				)}
+		<div css={optionsOuterCss} ref={divRef}>
+			<div css={selectedOptionCss} onClick={handleClickShowOptions}>
+				{value ? options.find(item => item.value === value)?.label : placeholder}
 			</div>
-		</React.Fragment>
+			{isShow && (
+				<div css={optionsWrapCss}>
+					{options.map(item => (
+						<div css={itemCss} key={item.value} onClick={e => handleClickSelectOption(item.value, e)}>
+							{item.label}
+						</div>
+					))}
+				</div>
+			)}
+		</div>
 	);
 }
 
@@ -73,6 +71,7 @@ const optionsWrapCss = css`
 	border-radius: 30px;
 	border: 1px solid #ccc;
 	background-color: #fff;
+	z-index: 20;
 `;
 
 const itemCss = css`
