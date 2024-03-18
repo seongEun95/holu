@@ -2,38 +2,38 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
 
-export type LangIconType =
-	| 'javascript'
-	| 'typescript'
-	| 'react'
-	| 'next'
-	| 'flutter'
-	| 'figma'
-	| 'c'
-	| 'python'
-	| 'express'
-	| 'nestjs'
-	| 'vue'
-	| 'nodejs'
-	| 'spring'
-	| 'java'
-	| 'express'
-	| 'go'
-	| 'django'
-	| 'swift'
-	| 'kotlin'
-	| 'mysql'
-	| 'mongodb'
-	| 'php'
-	| 'graphql'
-	| 'firebase'
-	| 'reactnative'
-	| 'unity'
-	| 'aws'
-	| 'kubernetes'
-	| 'docker'
-	| 'git'
-	| 'zeplin';
+export type LanguageType =
+	| 'JAVASCRIPT'
+	| 'TYPESCRIPT'
+	| 'REACT'
+	| 'NEXTJS'
+	| 'FLUTTER'
+	| 'FIGMA'
+	| 'C'
+	| 'PYTHON'
+	| 'EXPRESS'
+	| 'NESTJS'
+	| 'VUE'
+	| 'NODEJS'
+	| 'SPRING'
+	| 'JAVA'
+	| 'EXPRESS'
+	| 'GO'
+	| 'DJANGO'
+	| 'SWIFT'
+	| 'KOTLIN'
+	| 'MYSQL'
+	| 'MONGODB'
+	| 'PHP'
+	| 'GRAPHQL'
+	| 'FIREBASE'
+	| 'REACTNATIVE'
+	| 'UNITY'
+	| 'AWS'
+	| 'KUBERNETES'
+	| 'DOCKER'
+	| 'GIT'
+	| 'ZEPLIN';
 
 export type LangIconSize = 'small' | 'medium' | 'large';
 
@@ -42,7 +42,7 @@ type IconCssProps = {
 };
 
 type LangIconProps = {
-	type: LangIconType;
+	type: LanguageType;
 	size: LangIconSize;
 };
 
