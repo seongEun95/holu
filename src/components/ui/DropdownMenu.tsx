@@ -15,10 +15,11 @@ type DropdownMenuProps = {
 	value: string;
 	options: Option[];
 	placeholder: string;
+	selectedMenu?: string;
 	onClick?: React.MouseEventHandler;
 };
 
-export default function DropdownMenu({ name, value, options, placeholder, onClick }: DropdownMenuProps) {
+export default function DropdownMenu({ name, value, options, placeholder, selectedMenu, onClick }: DropdownMenuProps) {
 	const [isShow, setIsShow] = useState(false);
 
 	const handleClickShowOptions = () => {
@@ -35,7 +36,7 @@ export default function DropdownMenu({ name, value, options, placeholder, onClic
 
 	return (
 		<div css={optionsOuterCss} ref={divRef}>
-			<div css={selectedOptionCss} onClick={handleClickShowOptions}>
+			<div css={selectedOptionCss(selectedMenu === '')} onClick={handleClickShowOptions}>
 				{value ? options.find(item => item.value === value)?.label : placeholder}
 			</div>
 			{isShow && (
@@ -51,11 +52,12 @@ export default function DropdownMenu({ name, value, options, placeholder, onClic
 	);
 }
 
-const selectedOptionCss = css`
+const selectedOptionCss = (isSelected: boolean) => css`
 	width: 125px;
 	padding: 10px 20px;
 	border-radius: 30px;
-	border: 1px solid #ccc;
+	color: ${isSelected ? '#646464' : 'rgb(0, 185, 174)'};
+	border: 1px solid ${isSelected ? '#ccc' : 'rgb(0, 185, 174)'};
 	cursor: pointer;
 `;
 
