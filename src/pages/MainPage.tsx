@@ -39,31 +39,40 @@ export default function MainPage() {
 		setInput('');
 	};
 
-	const handleClickCategoryFilter = (filter: string) => {
+	const handleClickCategoryFilter = (filter: SelectedTab) => {
 		if (filter === 'ALL') {
-			setCardData(cardDataVariable);
+			setSelectedTab('ALL');
+			setCategoryFilter({
+				skillStack: '',
+				position: '',
+				progressMethod: '',
+			});
 		} else {
-			setCardData(cardDataVariable.filter(item => item.category === filter));
+			setSelectedTab(filter);
 		}
 	};
 
 	const handleClickGetOption = (e: any) => {
 		const { name, value } = e.target;
 		setCategoryFilter(prev => ({ ...prev, [name]: value }));
-
-		const newList = cardDataVariable.filter(item => {
-			// @ts-ignore
-			return item[name].includes(value);
-		});
-		setCardData(newList);
 	};
 
 	return (
 		<div css={mainWrapCss}>
 			<div css={categoryWrapCss}>
-				<Category label="전체" name="all" onClick={() => handleClickCategoryFilter('ALL')} />
-				<Category label="프로젝트" name="project" onClick={() => handleClickCategoryFilter('PROJECT')} />
-				<Category label="스터디" name="study" onClick={() => handleClickCategoryFilter('STUDY')} />
+				<Category label="전체" name="ALL" selectedTab={selectedTab} onClick={() => handleClickCategoryFilter('ALL')} />
+				<Category
+					label="프로젝트"
+					name="PROJECT"
+					selectedTab={selectedTab}
+					onClick={() => handleClickCategoryFilter('PROJECT')}
+				/>
+				<Category
+					label="스터디"
+					name="STUDY"
+					selectedTab={selectedTab}
+					onClick={() => handleClickCategoryFilter('STUDY')}
+				/>
 			</div>
 			<div css={dropdownSearchWrapCss}>
 				<div css={dropdownWrapCss}>
@@ -72,6 +81,7 @@ export default function MainPage() {
 						options={OPTIONS_SKILLSTACK}
 						placeholder="기술 스택"
 						value={categoryFilter.skillStack}
+						selectedMenu={categoryFilter.skillStack}
 						onClick={handleClickGetOption}
 					/>
 
@@ -80,6 +90,7 @@ export default function MainPage() {
 						options={OPTIONS_POSITION}
 						placeholder="포지션"
 						value={categoryFilter.position}
+						selectedMenu={categoryFilter.position}
 						onClick={handleClickGetOption}
 					/>
 
@@ -88,6 +99,7 @@ export default function MainPage() {
 						options={OPTIONS_METHOD}
 						placeholder="진행 방식"
 						value={categoryFilter.progressMethod}
+						selectedMenu={categoryFilter.progressMethod}
 						onClick={handleClickGetOption}
 					/>
 				</div>
@@ -101,21 +113,46 @@ export default function MainPage() {
 				/>
 			</div>
 			<div css={cardWrapCss}>
-				{cardData.map(item => (
-					<Card
-						category={item.category}
-						uploadDate={item.uploadDate}
-						deadline={item.deadline}
-						projectTitle={item.projectTitle}
-						position={item.position}
-						skillStack={item.skillStack}
-						userId={item.userId}
-						viewCount={item.viewCount}
-						commentCount={item.commentCount}
-						progressMethod={item.progressMethod}
-						key={item.userId}
-					/>
-				))}
+				{cardDataVariable
+					.filter(item => {
+						if (selectedTab !== 'ALL') {
+							return item.category === selectedTab;
+						}
+						return true;
+					})
+					.filter(item => {
+						if (categoryFilter.skillStack) {
+							return item.skillStack.includes(categoryFilter.skillStack);
+						}
+						return true;
+					})
+					.filter(item => {
+						if (categoryFilter.position && categoryFilter.position !== 'ALL') {
+							return item.position.includes(categoryFilter.position);
+						}
+						return true;
+					})
+					.filter(item => {
+						if (categoryFilter.progressMethod && categoryFilter.progressMethod !== 'ALL') {
+							return item.progressMethod.includes(categoryFilter.progressMethod);
+						}
+						return true;
+					})
+					.map(item => (
+						<Card
+							category={item.category}
+							uploadDate={item.uploadDate}
+							deadline={item.deadline}
+							projectTitle={item.projectTitle}
+							position={item.position}
+							skillStack={item.skillStack}
+							userId={item.userId}
+							viewCount={item.viewCount}
+							commentCount={item.commentCount}
+							progressMethod={item.progressMethod}
+							key={item.userId}
+						/>
+					))}
 			</div>
 		</div>
 	);
