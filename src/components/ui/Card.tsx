@@ -116,6 +116,7 @@ const cardTitleCss = css`
 	font-size: 17px;
 	font-weight: 500;
 	line-height: 1.5;
+	min-height: 51px;
 	margin-bottom: 16px;
 	display: -webkit-box;
 	text-overflow: ellipsis;
