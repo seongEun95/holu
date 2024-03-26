@@ -2,16 +2,20 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
 import Label from './Label';
-import { PiHandWavingThin } from 'react-icons/pi';
 import { LangIcon, LanguageType } from './LangIcon';
 import Avatar from './Avatar';
 import UserCountIcon from './UserCountIcon';
 import dayjs, { Dayjs } from 'dayjs';
 import { PositionType } from '../../pages/MainPage';
+import { useDispatch, useSelector } from 'react-redux';
+import { Bookmark, addItems, removeItems } from '../../redux/slice/bookmarkSlice';
+import { RootState } from '../../redux/store';
+import mq from '../../styles/mediaQuery';
 
 export type CategoryType = 'PROJECT' | 'STUDY';
 
 type CardProps = {
+	id: number;
 	category: CategoryType;
 	uploadDate: Dayjs;
 	deadline: Dayjs;
@@ -26,6 +30,7 @@ type CardProps = {
 };
 
 export default function Card({
+	id,
 	category,
 	uploadDate,
 	deadline,
@@ -35,10 +40,32 @@ export default function Card({
 	userId,
 	viewCount,
 	commentCount,
+	progressMethod,
 }: CardProps) {
 	const today = dayjs().set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
 	const diffDays = today.diff(uploadDate, 'days');
 	const deadlineSoon = deadline.diff(today, 'days') + 1;
+
+	const dispatch = useDispatch();
+	const bookmarkItems = useSelector((state: RootState) => state.bookmark.items);
+	const isBookmark = bookmarkItems.find(item => item.id === id);
+
+	const handleClickAddBookmark = () => {
+		const cardData: Bookmark = {
+			id,
+			category,
+			uploadDate,
+			deadline,
+			projectTitle,
+			position,
+			skillStack,
+			userId,
+			viewCount,
+			commentCount,
+			progressMethod,
+		};
+		isBookmark ? dispatch(removeItems(id)) : dispatch(addItems(cardData));
+	};
 
 	return (
 		<div css={cardWrapCss}>
@@ -49,8 +76,12 @@ export default function Card({
 					{deadlineSoon > 0 && deadlineSoon <= 6 && <Label type="DEADLINE_SOON" />}
 					{viewCount >= 100 && <Label type="POPULAR_ARTICLE" />}
 				</div>
-				<div css={bookMarkIconCss}>
-					<img css={bookmarkCss} src="/img/bookmark-1.png" alt="bookmark" />
+				<div css={bookMarkIconCss} onClick={handleClickAddBookmark}>
+					{isBookmark ? (
+						<img css={bookmarkCss} src="/img/bookmark_filled.png" alt="bookmark" />
+					) : (
+						<img css={bookmarkCss} src="/img/bookmark-1.png" alt="bookmark" />
+					)}
 				</div>
 			</div>
 			<div css={deadlineCss}>
@@ -86,6 +117,13 @@ const cardWrapCss = css`
 	padding: 40px 25px 20px;
 	border: 2px solid #d1d1d1;
 	border-radius: 30px;
+
+	${mq.tablet} {
+		width: 100%;
+		border: none;
+		border-bottom: 5px solid #f3f3f3;
+		border-radius: 0;
+	}
 `;
 
 const labelWrapCss = css`
