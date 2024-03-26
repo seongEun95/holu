@@ -1,7 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
-import { useState } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
 import { TiDeleteOutline } from 'react-icons/ti';
 
@@ -9,7 +8,7 @@ type SearchInputProps = {
 	name: string;
 	value?: string;
 	placeholder: string;
-	type: 'text';
+	type: 'text' | 'search';
 	onChange?: React.ChangeEventHandler;
 	onClick?: React.MouseEventHandler;
 };
@@ -42,6 +41,10 @@ const inputCss = css`
 
 	&:focus {
 		outline: none;
+	}
+
+	&::-webkit-search-cancel-button {
+		display: none;
 	}
 `;
 
