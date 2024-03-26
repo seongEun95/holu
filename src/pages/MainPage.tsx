@@ -9,34 +9,35 @@ import DropdownMenu from '../components/ui/DropdownMenu';
 import { OPTIONS_METHOD, OPTIONS_POSITION, OPTIONS_SKILLSTACK } from '../data/mainDropdownData';
 import SearchInput from '../components/ui/SearchInput';
 import { LanguageType } from '../components/ui/LangIcon';
+import mq from '../styles/mediaQuery';
 
 export type SelectedTab = 'ALL' | 'PROJECT' | 'STUDY';
 export type PositionType = 'ALL' | 'FRONTEND' | 'BACKEND' | 'DESIGN' | 'PM';
-export type progressMethodType = 'ALL' | 'ONLINE' | 'OFFLINE';
+export type ProgressMethodType = 'ALL' | 'ONLINE' | 'OFFLINE';
 
 type CategoryFilterType = {
 	skillStack: LanguageType | '';
 	position: PositionType | '';
-	progressMethod: progressMethodType | '';
+	progressMethod: ProgressMethodType | '';
 };
 
 export default function MainPage() {
 	const cardDataVariable = CardData;
-	const [cardData, setCardData] = useState(cardDataVariable);
 	const [selectedTab, setSelectedTab] = useState<SelectedTab>('ALL');
 	const [categoryFilter, setCategoryFilter] = useState<CategoryFilterType>({
 		skillStack: '',
 		position: '',
 		progressMethod: '',
 	});
-	const [input, setInput] = useState('');
+	const [searchInput, setSearchInput] = useState('');
 
 	const handleChangeInput = (e: any) => {
-		setInput(e.target.value);
+		const inputValue = e.target.value;
+		setSearchInput(inputValue);
 	};
 
 	const handleDeleteInput = () => {
-		setInput('');
+		setSearchInput('');
 	};
 
 	const handleClickCategoryFilter = (filter: SelectedTab) => {
@@ -49,6 +50,11 @@ export default function MainPage() {
 			});
 		} else {
 			setSelectedTab(filter);
+			setCategoryFilter({
+				skillStack: '',
+				position: '',
+				progressMethod: '',
+			});
 		}
 	};
 
@@ -60,17 +66,22 @@ export default function MainPage() {
 	return (
 		<div css={mainWrapCss}>
 			<div css={categoryWrapCss}>
-				<Category label="전체" name="ALL" selectedTab={selectedTab} onClick={() => handleClickCategoryFilter('ALL')} />
+				<Category
+					label="전체"
+					name="ALL"
+					isSelected={selectedTab === 'ALL'}
+					onClick={() => handleClickCategoryFilter('ALL')}
+				/>
 				<Category
 					label="프로젝트"
 					name="PROJECT"
-					selectedTab={selectedTab}
+					isSelected={selectedTab === 'PROJECT'}
 					onClick={() => handleClickCategoryFilter('PROJECT')}
 				/>
 				<Category
 					label="스터디"
 					name="STUDY"
-					selectedTab={selectedTab}
+					isSelected={selectedTab === 'STUDY'}
 					onClick={() => handleClickCategoryFilter('STUDY')}
 				/>
 			</div>
@@ -81,7 +92,6 @@ export default function MainPage() {
 						options={OPTIONS_SKILLSTACK}
 						placeholder="기술 스택"
 						value={categoryFilter.skillStack}
-						selectedMenu={categoryFilter.skillStack}
 						onClick={handleClickGetOption}
 					/>
 
@@ -90,7 +100,6 @@ export default function MainPage() {
 						options={OPTIONS_POSITION}
 						placeholder="포지션"
 						value={categoryFilter.position}
-						selectedMenu={categoryFilter.position}
 						onClick={handleClickGetOption}
 					/>
 
@@ -99,47 +108,46 @@ export default function MainPage() {
 						options={OPTIONS_METHOD}
 						placeholder="진행 방식"
 						value={categoryFilter.progressMethod}
-						selectedMenu={categoryFilter.progressMethod}
 						onClick={handleClickGetOption}
 					/>
 				</div>
-				<SearchInput
-					name="search"
-					type="text"
-					onChange={handleChangeInput}
-					placeholder="제목, 글 내용을 검색해보세요."
-					value={input}
-					onClick={handleDeleteInput}
-				/>
+				<div css={searchInputWrap}>
+					<SearchInput
+						name="search"
+						type="search"
+						onChange={handleChangeInput}
+						placeholder="제목, 글 내용을 검색해보세요."
+						value={searchInput}
+						onClick={handleDeleteInput}
+					/>
+				</div>
 			</div>
 			<div css={cardWrapCss}>
 				{cardDataVariable
 					.filter(item => {
-						if (selectedTab !== 'ALL') {
-							return item.category === selectedTab;
-						}
-						return true;
-					})
-					.filter(item => {
-						if (categoryFilter.skillStack) {
-							return item.skillStack.includes(categoryFilter.skillStack);
-						}
-						return true;
-					})
-					.filter(item => {
-						if (categoryFilter.position && categoryFilter.position !== 'ALL') {
-							return item.position.includes(categoryFilter.position);
-						}
-						return true;
-					})
-					.filter(item => {
-						if (categoryFilter.progressMethod && categoryFilter.progressMethod !== 'ALL') {
-							return item.progressMethod.includes(categoryFilter.progressMethod);
-						}
-						return true;
+						let isCategoryPassed = true;
+						let isSkillPassed = true;
+						let isPositionPassed = true;
+						let isProgressMethodPassed = true;
+						let isSearch = true;
+
+						if (selectedTab !== 'ALL') isCategoryPassed = item.category === selectedTab;
+
+						if (categoryFilter.skillStack) isSkillPassed = item.skillStack.includes(categoryFilter.skillStack);
+
+						if (categoryFilter.position && categoryFilter.position !== 'ALL')
+							isPositionPassed = item.position.includes(categoryFilter.position);
+
+						if (categoryFilter.progressMethod && categoryFilter.progressMethod !== 'ALL')
+							isProgressMethodPassed = item.progressMethod.includes(categoryFilter.progressMethod);
+
+						if (searchInput !== '') isSearch = item.projectTitle.toLowerCase().includes(searchInput.toLowerCase());
+
+						return isCategoryPassed && isSkillPassed && isPositionPassed && isProgressMethodPassed && isSearch;
 					})
 					.map(item => (
 						<Card
+							id={item.id}
 							category={item.category}
 							uploadDate={item.uploadDate}
 							deadline={item.deadline}
@@ -163,6 +171,11 @@ const mainWrapCss = css`
 	max-width: 1320px;
 	margin: 60px auto;
 	padding: 0 20px;
+
+	${mq.desktop} {
+		max-width: 992px;
+		padding: 0 10px;
+	}
 `;
 
 const categoryWrapCss = css`
@@ -181,6 +194,16 @@ const dropdownSearchWrapCss = css`
 const dropdownWrapCss = css`
 	display: flex;
 	gap: 12px;
+
+	${mq.mobile} {
+		gap: 7px;
+	}
+`;
+
+const searchInputWrap = css`
+	${mq.tablet} {
+		display: none;
+	}
 `;
 
 const cardWrapCss = css`
@@ -188,4 +211,17 @@ const cardWrapCss = css`
 	grid-template-columns: repeat(4, 300px);
 	justify-content: space-between;
 	gap: 27px;
+
+	${mq.desktop} {
+		grid-template-columns: repeat(3, 300px);
+		justify-content: center;
+	}
+
+	${mq.notebook} {
+		grid-template-columns: repeat(2, 300px);
+	}
+
+	${mq.tablet} {
+		grid-template-columns: repeat(1, 1fr);
+	}
 `;
