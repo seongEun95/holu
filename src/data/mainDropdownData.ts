@@ -1,15 +1,15 @@
 export const OPTIONS_SKILLSTACK = [
 	{
 		label: '리액트',
-		value: 'REACT',
+		value: 'react',
 	},
 	{
 		label: '넥스트',
-		value: 'NEXTJS',
+		value: 'nextjs',
 	},
 	{
 		label: '자바',
-		value: 'JAVA',
+		value: 'java',
 	},
 ];
 
