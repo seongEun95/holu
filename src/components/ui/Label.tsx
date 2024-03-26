@@ -11,16 +11,7 @@ export type LabelType =
 	| 'DEADLINE_SOON'
 	| 'DEADLINE_DATE';
 
-export type PositionType =
-	| '전체'
-	| '프론트엔드'
-	| '벡엔드'
-	| '안드로이드'
-	| '디자이너'
-	| '기획자'
-	| 'IOS'
-	| '데브옵스'
-	| 'PM';
+export type PositionType = 'ALL' | 'FRONTEND' | 'BACKEND' | 'DESIGN' | 'PM';
 
 type LabelProps = {
 	type: LabelType;
@@ -31,6 +22,14 @@ type LabelProps = {
 interface LabelCssProps {
 	[key: string]: ReturnType<typeof css>;
 }
+
+const POSITION_TEXT_MAP: { [index: string]: string } = {
+	ALL: '전체',
+	FRONTEND: '프론트엔드',
+	BACKEND: '벡엔드',
+	DESIGN: '디자이너',
+	PM: 'PM',
+};
 
 export default function Label({ type, position, date }: LabelProps) {
 	switch (type) {
@@ -43,7 +42,7 @@ export default function Label({ type, position, date }: LabelProps) {
 		case 'POPULAR_ARTICLE':
 			return <div css={[labelCommonCss, labelCss[type]]}>💙 인기</div>;
 		case 'POSITION':
-			return <div css={[labelCommonCss, labelCss[type]]}>{position}</div>;
+			return <div css={[labelCommonCss, labelCss[type]]}>{position && POSITION_TEXT_MAP[position]}</div>;
 		case 'DEADLINE_SOON':
 			return <div css={[labelCommonCss, labelCss[type]]}>🔥 마감코앞</div>;
 		case 'DEADLINE_DATE':

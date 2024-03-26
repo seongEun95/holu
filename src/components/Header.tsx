@@ -5,8 +5,10 @@ import { Link } from 'react-router-dom';
 import Avatar from './ui/Avatar';
 import { CiBellOn } from 'react-icons/ci';
 import Dropdown from './ui/Dropdown';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
+import mq from '../styles/mediaQuery';
+import useOutsideClick from '../hooks/useOutsideClick';
 
 export default function Header() {
 	const [isShow, setIsShow] = useState(false);
@@ -14,6 +16,9 @@ export default function Header() {
 	const handleClickChangeIsShow = () => {
 		setIsShow(prev => !prev);
 	};
+
+	const liRef = useRef<HTMLLIElement>(null);
+	useOutsideClick(liRef, () => setIsShow(() => false));
 
 	return (
 		<header css={headerCss}>
@@ -35,7 +40,7 @@ export default function Header() {
 							<CiBellOn size={30} />
 						</button>
 					</li>
-					<li css={testCss}>
+					<li css={testCss} ref={liRef}>
 						<button css={avatarBtnCss} onClick={handleClickChangeIsShow}>
 							<Avatar
 								type="iconOnly"
@@ -45,7 +50,7 @@ export default function Header() {
 							/>
 							<IoMdArrowDropdown css={downIconCss} />
 						</button>
-						<Dropdown isShow={isShow} />
+						<Dropdown isShow={isShow} onClick={handleClickChangeIsShow} />
 					</li>
 				</ul>
 			</div>
@@ -72,6 +77,10 @@ const menuCss = css`
 	display: flex;
 	align-items: center;
 	gap: 30px;
+
+	${mq.mobile} {
+		gap: 10px;
+	}
 `;
 
 const newPostTextCss = css`
@@ -80,6 +89,7 @@ const newPostTextCss = css`
 `;
 
 const bellIconCss = css`
+	padding: 0px;
 	cursor: pointer;
 `;
 
@@ -90,6 +100,7 @@ const testCss = css`
 const avatarBtnCss = css`
 	display: flex;
 	align-items: center;
+	padding: 0px;
 	cursor: pointer;
 `;
 

@@ -4,6 +4,7 @@ import MainPage from './pages/MainPage';
 import RegisterPage from './pages/RegisterPage';
 import StudyPage from './pages/StudyPage';
 import TestPage from './pages/TestPage';
+import MyLikesPage from './pages/MyLikesPage';
 
 export default function Router() {
 	return (
@@ -13,6 +14,7 @@ export default function Router() {
 					<Route path="/" element={<MainPage />}></Route>
 					<Route path="/register" element={<RegisterPage />}></Route>
 					<Route path="/study/:id" element={<StudyPage />} />
+					<Route path="/myLikes" element={<MyLikesPage />} />
 				</Route>
 
 				<Route path="/test" element={<TestPage />}></Route>

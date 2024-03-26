@@ -5,26 +5,27 @@ import { provideAttr } from '../../util/provideAttr';
 
 type CategoryProps = {
 	name: string;
-	value: string;
+	value?: string;
 	label: string;
-	onClick?: React.MouseEventHandler;
+	isSelected: boolean;
+	onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-export default function Category({ name, value, label, onClick }: CategoryProps) {
+export default function Category({ name, value, label, isSelected, onClick }: CategoryProps) {
 	const handleClickCategory = (e: React.MouseEvent<HTMLDivElement>) => {
-		onClick?.(provideAttr(name, value, e));
+		onClick && onClick(provideAttr(name, value, e));
 	};
 
 	return (
-		<div css={labelCss} onClick={e => handleClickCategory(e)}>
+		<div css={labelCss(isSelected)} onClick={e => handleClickCategory(e)}>
 			{label}
 		</div>
 	);
 }
 
-const labelCss = css`
+const labelCss = (isSelected: boolean) => css`
 	font-size: 24px;
-	font-weight: 700;
-	color: #868e96;
+	font-weight: ${isSelected ? 900 : 500};
+	color: ${isSelected ? '#444' : '#868e96'};
 	cursor: pointer;
 `;

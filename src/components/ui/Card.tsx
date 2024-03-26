@@ -1,15 +1,36 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
-import Label, { LabelType } from './Label';
-import { CardData } from '../../types/Card.type';
-import { PiHandWavingThin } from 'react-icons/pi';
-import { LangIcon } from './LangIcon';
+import Label from './Label';
+import { LangIcon, LanguageType } from './LangIcon';
 import Avatar from './Avatar';
 import UserCountIcon from './UserCountIcon';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import { PositionType } from '../../pages/MainPage';
+import { useDispatch, useSelector } from 'react-redux';
+import { Bookmark, addItems, removeItems } from '../../redux/slice/bookmarkSlice';
+import { RootState } from '../../redux/store';
+import mq from '../../styles/mediaQuery';
+
+export type CategoryType = 'PROJECT' | 'STUDY';
+
+type CardProps = {
+	id: number;
+	category: CategoryType;
+	uploadDate: Dayjs;
+	deadline: Dayjs;
+	projectTitle: string;
+	position: PositionType[];
+	skillStack: LanguageType[];
+	userIconSrc?: string;
+	userId: string;
+	viewCount: number;
+	commentCount: number;
+	progressMethod: string[];
+};
 
 export default function Card({
+	id,
 	category,
 	uploadDate,
 	deadline,
@@ -19,26 +40,48 @@ export default function Card({
 	userId,
 	viewCount,
 	commentCount,
-}: CardData) {
-	const today = dayjs();
+	progressMethod,
+}: CardProps) {
+	const today = dayjs().set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0);
 	const diffDays = today.diff(uploadDate, 'days');
 	const deadlineSoon = deadline.diff(today, 'days') + 1;
+
+	const dispatch = useDispatch();
+	const bookmarkItems = useSelector((state: RootState) => state.bookmark.items);
+	const isBookmark = bookmarkItems.find(item => item.id === id);
+
+	const handleClickAddBookmark = () => {
+		const cardData: Bookmark = {
+			id,
+			category,
+			uploadDate,
+			deadline,
+			projectTitle,
+			position,
+			skillStack,
+			userId,
+			viewCount,
+			commentCount,
+			progressMethod,
+		};
+		isBookmark ? dispatch(removeItems(id)) : dispatch(addItems(cardData));
+	};
 
 	return (
 		<div css={cardWrapCss}>
 			<div>
 				<div css={labelWrapCss}>
-					<Label type={category as LabelType} />
+					<Label type={category} />
 					{diffDays <= 2 && <Label type="NEW_ARTICLE" />}
-					{deadlineSoon === 1 || (deadlineSoon <= 4 && deadlineSoon > 1) ? (
-						<Label type="DEADLINE_DATE" date={deadlineSoon} />
-					) : deadlineSoon <= 6 && deadlineSoon > 4 ? (
-						<Label type="DEADLINE_SOON" />
-					) : null}
+					{deadlineSoon > 0 && deadlineSoon <= 6 && <Label type="DEADLINE_SOON" />}
 					{viewCount >= 100 && <Label type="POPULAR_ARTICLE" />}
 				</div>
-				<div css={bookMarkIconCss}>
-					<PiHandWavingThin size={40} />
+				<div css={bookMarkIconCss} onClick={handleClickAddBookmark}>
+					{isBookmark ? (
+						<img css={bookmarkCss} src="/img/bookmark_filled.png" alt="bookmark" />
+					) : (
+						<img css={bookmarkCss} src="/img/bookmark-1.png" alt="bookmark" />
+					)}
 				</div>
 			</div>
 			<div css={deadlineCss}>
@@ -74,6 +117,13 @@ const cardWrapCss = css`
 	padding: 40px 25px 20px;
 	border: 2px solid #d1d1d1;
 	border-radius: 30px;
+
+	${mq.tablet} {
+		width: 100%;
+		border: none;
+		border-bottom: 5px solid #f3f3f3;
+		border-radius: 0;
+	}
 `;
 
 const labelWrapCss = css`
@@ -89,6 +139,10 @@ const bookMarkIconCss = css`
 	cursor: pointer;
 `;
 
+const bookmarkCss = css`
+	width: 28px;
+`;
+
 const deadlineCss = css`
 	font-size: 14px;
 	color: #999;
@@ -100,6 +154,7 @@ const cardTitleCss = css`
 	font-size: 17px;
 	font-weight: 500;
 	line-height: 1.5;
+	min-height: 51px;
 	margin-bottom: 16px;
 	display: -webkit-box;
 	text-overflow: ellipsis;

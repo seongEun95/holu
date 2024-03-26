@@ -4,6 +4,7 @@ import { jsx, css } from '@emotion/react';
 import React, { useRef, useState } from 'react';
 import { provideAttr } from '../../util/provideAttr';
 import useOutsideClick from '../../hooks/useOutsideClick';
+import mq from '../../styles/mediaQuery';
 
 type Option = {
 	label: string;
@@ -29,36 +30,41 @@ export default function DropdownMenu({ name, value, options, placeholder, onClic
 	useOutsideClick(divRef, () => setIsShow(() => false));
 
 	const handleClickSelectOption = (selectedOption: string, e: React.MouseEvent<HTMLDivElement>) => {
-		onClick?.(provideAttr(name, selectedOption, e));
+		onClick && onClick(provideAttr(name, selectedOption, e));
 		setIsShow(prev => !prev);
 	};
 
 	return (
-		<React.Fragment>
-			<div css={optionsOuterCss}>
-				<div css={selectedOptionCss} onClick={handleClickShowOptions}>
-					{value ? options.find(item => item.value === value)?.label : placeholder}
-				</div>
-				{isShow && (
-					<div css={optionsWrapCss} ref={divRef}>
-						{options.map(item => (
-							<div css={itemCss} key={item.value} onClick={e => handleClickSelectOption(item.value, e)}>
-								{item.label}
-							</div>
-						))}
-					</div>
-				)}
+		<div css={optionsOuterCss} ref={divRef}>
+			<div css={selectedOptionCss(value === '')} onClick={handleClickShowOptions}>
+				{value ? options.find(item => item.value === value)?.label : placeholder}
 			</div>
-		</React.Fragment>
+			{isShow && (
+				<div css={optionsWrapCss}>
+					{options.map(item => (
+						<div css={itemCss} key={item.value} onClick={e => handleClickSelectOption(item.value, e)}>
+							{item.label}
+						</div>
+					))}
+				</div>
+			)}
+		</div>
 	);
 }
 
-const selectedOptionCss = css`
+const selectedOptionCss = (isSelected: boolean) => css`
 	width: 125px;
 	padding: 10px 20px;
 	border-radius: 30px;
-	border: 1px solid #ccc;
+	color: ${isSelected ? '#646464' : 'rgb(0, 185, 174)'};
+	border: 1px solid ${isSelected ? '#ccc' : 'rgb(0, 185, 174)'};
 	cursor: pointer;
+
+	${mq.mobile} {
+		width: 100px;
+		padding: 10px 0;
+		text-align: center;
+	}
 `;
 
 const optionsOuterCss = css`
@@ -73,6 +79,11 @@ const optionsWrapCss = css`
 	border-radius: 30px;
 	border: 1px solid #ccc;
 	background-color: #fff;
+	z-index: 20;
+
+	${mq.mobile} {
+		width: 100px;
+	}
 `;
 
 const itemCss = css`
@@ -81,4 +92,8 @@ const itemCss = css`
 	padding: 10px 20px;
 	color: #646464;
 	cursor: pointer;
+
+	${mq.mobile} {
+		padding: 10px 12px;
+	}
 `;

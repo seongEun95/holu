@@ -2,11 +2,11 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
 
-export type LangIconType =
+export type LanguageType =
 	| 'javascript'
 	| 'typescript'
 	| 'react'
-	| 'next'
+	| 'nextjs'
 	| 'flutter'
 	| 'figma'
 	| 'c'
@@ -42,7 +42,7 @@ type IconCssProps = {
 };
 
 type LangIconProps = {
-	type: LangIconType;
+	type: LanguageType;
 	size: LangIconSize;
 };
 
