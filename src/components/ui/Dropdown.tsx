@@ -5,13 +5,19 @@ import { Link, useNavigate } from 'react-router-dom';
 
 type DropdownProps = {
 	isShow: boolean;
+	onClick: () => void;
 };
 
-export default function Dropdown({ isShow }: DropdownProps) {
+export default function Dropdown({ isShow, onClick }: DropdownProps) {
 	const navigate = useNavigate();
 
 	const handleClickLogout = () => {
 		navigate('/');
+		onClick();
+	};
+
+	const handleClickMenu = () => {
+		onClick();
 	};
 
 	return (
@@ -19,17 +25,17 @@ export default function Dropdown({ isShow }: DropdownProps) {
 			{isShow && (
 				<ul css={dropdownWrapCss}>
 					<li>
-						<Link css={listCss} to={'/myPosts'}>
+						<Link css={listCss} to={'/myPosts'} onClick={handleClickMenu}>
 							내 작성글
 						</Link>
 					</li>
 					<li>
-						<Link css={listCss} to={'/myLikes'}>
+						<Link css={listCss} to={'/myLikes'} onClick={handleClickMenu}>
 							내 관심글
 						</Link>
 					</li>
 					<li>
-						<Link css={listCss} to={'/setting'}>
+						<Link css={listCss} to={'/setting'} onClick={handleClickMenu}>
 							설정
 						</Link>
 					</li>
@@ -52,6 +58,7 @@ const dropdownWrapCss = css`
 	box-shadow: 0 2px 10px #00000013;
 	border: 1px solid #ccc;
 	background-color: #fff;
+	z-index: 10;
 `;
 
 const listCss = css`
