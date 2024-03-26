@@ -7,17 +7,17 @@ type CategoryProps = {
 	name: string;
 	value?: string;
 	label: string;
-	selectedTab?: string;
-	onClick?: React.MouseEventHandler;
+	isSelected: boolean;
+	onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-export default function Category({ name, value, label, selectedTab, onClick }: CategoryProps) {
+export default function Category({ name, value, label, isSelected, onClick }: CategoryProps) {
 	const handleClickCategory = (e: React.MouseEvent<HTMLDivElement>) => {
-		onClick?.(provideAttr(name, value, e));
+		onClick && onClick(provideAttr(name, value, e));
 	};
 
 	return (
-		<div css={labelCss(name === selectedTab)} onClick={e => handleClickCategory(e)}>
+		<div css={labelCss(isSelected)} onClick={e => handleClickCategory(e)}>
 			{label}
 		</div>
 	);
